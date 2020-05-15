@@ -14,3 +14,11 @@ void Table::clearTable() {
 Table::~Table() {
     this->clearTable();
 }
+
+const ICell* Table::getAt(const unsigned i, const unsigned j) const {
+    if(i >= this->rows || j >= this->cols) {
+        return nullptr;
+    }
+
+    return this->data[i][j];
+}

@@ -14,6 +14,8 @@ class Table {
 
     public:
         ~Table();
+
+        const ICell* getAt(const unsigned i, const unsigned j) const;
 };
 
 #endif
