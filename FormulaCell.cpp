@@ -29,21 +29,31 @@ void FormulaCell::print(std::ostream& out) const { // is this the right print?
 }
 
 double FormulaCell::getLiteralValue() const {
-    double leftSide = (this->table->getAt(this->leftRow, this->leftCol))->getLiteralValue();
-    double rightSide = (this->table->getAt(this->rightRow, this->rightCol))->getLiteralValue();
+    const ICell* leftSide = this->table->getAt(this->leftRow, this->leftCol);
+    const ICell* rightSide = this->table->getAt(this->rightRow, this->rightCol);
+
+    double leftValue = 0, rightValue = 0;
+
+    if(leftSide != nullptr) {
+        leftValue = leftSide->getLiteralValue();
+    }
+
+    if(rightSide != nullptr) {
+        rightValue = rightSide->getLiteralValue();
+    }
 
     switch(this->op) {
         case '+':
-            return leftSide + rightSide;
+            return leftValue + rightValue;
         case '-':
-            return leftSide - rightSide;
+            return leftValue - rightValue;
         case '*':
-            return leftSide * rightSide;
+            return leftValue * rightValue;
         case '/':
             // TO DO : DIVISION BY 0
-            return rightSide == 0 ? 0 : leftSide / rightSide;
+            return rightValue == 0 ? 0 : leftValue / rightValue;
         case '^':
-            return std::pow(leftSide, rightSide);
+            return std::pow(leftValue, rightValue);
         default:
             assert(true == false);
     }
