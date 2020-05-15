@@ -1,11 +1,12 @@
 #include <iostream>
-#include <iomanip>
+#include "Interactor.h"
 
 int main() {
-    double a = 5.123432;
-    std::cout << std::fixed << std::setprecision(3) << a << '\n';
-    a = 1.1;
-    std::cout << std::fixed << std::setprecision(3) << a << '\n';
+    Interactor* manager = Interactor::getInstance();
+
+    while(manager->isActive()) {
+        manager->parseCommand();
+    }
 
     return 0;
 }
