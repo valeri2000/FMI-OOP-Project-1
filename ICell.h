@@ -10,6 +10,7 @@ class ICell {
 
         virtual int charactersLength() const = 0; // width of the cell
         virtual void print(std::ostream&) const = 0; // print cell in file or console
+        virtual double getLiteralValue() const = 0; // converted value to double, for calculations
 };
 
 #endif

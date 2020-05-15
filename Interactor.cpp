@@ -7,6 +7,38 @@ void Interactor::errorMessage() const {
     std::cout << "Invalid command! Type 'help' to view available commands.\n";
 }
 
+void Interactor::openCommand(const std::string& parameters) {
+
+}
+
+void Interactor::closeCommand() {
+
+}
+
+void Interactor::saveCommand() {
+
+}
+
+void Interactor::saveasCommand(const std::string& parameters) {
+
+}
+
+void Interactor::helpCommand() {
+
+}
+
+void Interactor::exitCommand() {
+
+}
+
+void Interactor::printCommand() {
+
+}
+
+void Interactor::editCommand(const std::string& parameters) {
+
+}
+
 Interactor::Interactor() {
     this->active = true;
     this->table = nullptr;
@@ -32,7 +64,7 @@ bool Interactor::hasActiveTable() const{
 void Interactor::parseCommand() {
     // TODO: is it better to do it with char[] and read with cin.getline() ? 
     std::string input;
-    std::cin >> input;
+    getline(std::cin, input);
 
     int sizeInput = (int)input.size();
 
@@ -62,46 +94,54 @@ void Interactor::parseCommand() {
 
     if(command == "open") {
         this->openCommand(parameters);
-    } else if(command == "close") {
+    } 
+    else if(command == "close") {
         if((int)parameters.size()) {
             this->errorMessage();
             return;
         }
 
         this->closeCommand();
-    } else if(command == "save") {
+    } 
+    else if(command == "save") {
         if((int)parameters.size()) {
             this->errorMessage();
             return;
         }
 
         this->saveCommand();
-    } else if(command == "saveas") {
+    } 
+    else if(command == "saveas") {
         this->saveasCommand(parameters);
-    } else if(command == "help") {
+    } 
+    else if(command == "help") {
         if((int)parameters.size()) {
             this->errorMessage();
             return;
         }
 
         this->helpCommand();
-    } else if(command == "exit") {
+    } 
+    else if(command == "exit") {
         if((int)parameters.size()) {
             this->errorMessage();
             return;
         }
 
         this->exitCommand();
-    } else if(command == "print") {
+    } 
+    else if(command == "print") {
         if((int)parameters.size()) {
             this->errorMessage();
             return;
         }
-        
+
         this->printCommand();
-    } else if(command == "edit") {
+    } 
+    else if(command == "edit") {
         this->editCommand(parameters);
-    } else {
+    } 
+    else {
         this->errorMessage();
     }
 }

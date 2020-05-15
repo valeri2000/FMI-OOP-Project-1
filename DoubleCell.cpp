@@ -25,5 +25,9 @@ void DoubleCell::print(std::ostream& out) const{
     out << std::fixed << std::setprecision(PRECISION) << this->value;
 }
 
+double DoubleCell::getLiteralValue() const {
+    return this->value;
+} 
+
 DoubleCell::DoubleCell(const double newValue) :
     value(newValue) {}

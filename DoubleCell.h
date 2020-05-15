@@ -12,6 +12,7 @@ class DoubleCell : public ICell { // cell as double number as value
     public: // ICell methods
         virtual int charactersLength() const override;
         virtual void print(std::ostream&) const override;
+        virtual double getLiteralValue() const override;
 
     public:
         DoubleCell(const double);

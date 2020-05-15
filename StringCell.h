@@ -10,6 +10,7 @@ class StringCell : public ICell { // cell with string as value
     public: // ICell methods
         virtual int charactersLength() const override;
         virtual void print(std::ostream&) const override;
+        virtual double getLiteralValue() const override;
 
     public:
         StringCell(const std::string);
