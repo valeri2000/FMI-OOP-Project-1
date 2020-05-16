@@ -27,9 +27,11 @@ double StringCell::getLiteralValue() const {
     }
 
     bool ok = true;
+    bool in = false;
 
     for(; i < valueSize; ++i) {
         char ch = value[i];
+        in = true;
         if(ch >= '0' && ch <= '9') {
             res = res * 10 + ch - '0';
         } else if(ch == '.') {
@@ -40,8 +42,8 @@ double StringCell::getLiteralValue() const {
 
             int step = 10;
             for(i = i + 1; i < valueSize; ++i) {
-                if(ch >= '0' && ch <= '9') {
-                    res += 1.0 * (ch - '0') / step;
+                if(value[i] >= '0' && value[i] <= '9') {
+                    res += 1.0 * (value[i] - '0') / step;
                     step *= 10;
                 } else {
                     ok = false;
@@ -55,7 +57,7 @@ double StringCell::getLiteralValue() const {
         }
     }
 
-    if(!ok) {
+    if(!ok || !in) {
         return 0.0;
     }
 
