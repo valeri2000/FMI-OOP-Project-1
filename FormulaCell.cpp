@@ -15,7 +15,39 @@ int FormulaCell::charactersLength() const {
     return countSymbols;
 }
 
-void FormulaCell::print(std::ostream& out) const { // is this the right print?
+void FormulaCell::print(std::ostream& out) const {
+    if(&out != &std::cout) {
+        out << '=';
+        switch(this->myCase) {
+            case 0: // number + cell
+                out << this->leftNumber;
+                out << this->op;
+                out << 'R' << this->rightCell.first + 1;
+                out << 'C' << this->rightCell.second + 1;
+                break;
+            case 1: // cell + number
+                out << 'R' << this->leftCell.first + 1;
+                out << 'C' << this->leftCell.second + 1;
+                out << this->op;
+                out << this->rightNumber;
+                break;
+            case 2: // number + number
+                out << this->leftNumber;
+                out << this->op;
+                out << this->rightNumber;
+                break;
+            case 3: // cell + cell
+                out << 'R' << this->leftCell.first + 1;
+                out << 'C' << this->leftCell.first + 1;
+                out << this->op;
+                out << 'R' << this->rightCell.first + 1;
+                out << 'C' << this->rightCell.first + 1;
+                break;
+        }
+
+        return;
+    }
+
     out << this->getLiteralValue();
 }
 

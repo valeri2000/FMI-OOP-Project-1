@@ -26,6 +26,7 @@ class Interactor {
         Interactor();
 
     public:
+        ~Interactor();
         static Interactor* getInstance();
 
         bool isActive() const;

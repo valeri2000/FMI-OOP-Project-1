@@ -1,22 +1,14 @@
 #include <iostream>
-#include <fstream>
-#include "Table.h"
+#include "Interactor.h"
 
 int main() {
-    std::ifstream in("input1.txt");
+    Interactor* manager = Interactor::getInstance();
+    std::cout << "Program initiated!\n";
 
-    Table a(in);
-    a.printTable();
-
-    in.close();
-
-    return 0;
-
-    // Interactor* manager = Interactor::getInstance();
-
-    // while(manager->isActive()) {
-    //     manager->parseCommand();
-    // }
+    while(manager->isActive()) {
+        std::cout << "\nEnter your command: ";
+        manager->parseCommand();
+    }
 
     return 0;
 }

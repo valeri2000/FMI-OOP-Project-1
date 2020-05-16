@@ -60,11 +60,12 @@ std::pair<ICell*, bool> CellFactory::matchFormula(const std::string& cellText, c
                 table
             ), true);
 
-        } else if(Utils::parseCellPosition(rightPart, tempPair2) == true) {
+        } else if(Utils::parseCellPosition(rightPart, tempPair2) == true &&
+                  tempPair2.first > 0 && tempPair2.second > 0) {
             // number + cell
 
             return std::make_pair(new FormulaCell(
-                temp1, tempPair2.first, tempPair2.second,
+                temp1, tempPair2.first - 1, tempPair2.second - 1,
                 cellText[indexOp],
                 table
             ), true);
@@ -72,22 +73,24 @@ std::pair<ICell*, bool> CellFactory::matchFormula(const std::string& cellText, c
         } else {
             return wrong;
         }
-    } else if(Utils::parseCellPosition(leftPart, tempPair1)) {
+    } else if(Utils::parseCellPosition(leftPart, tempPair1) == true &&
+              tempPair1.first > 0 && tempPair1.second > 0) {
         if(Utils::stringToDouble(rightPart, temp2) == true) {
             // cell + number
 
             return std::make_pair(new FormulaCell(
-                tempPair1.first, tempPair1.second, temp2,
+                tempPair1.first - 1, tempPair1.second - 1, temp2,
                 cellText[indexOp],
                 table
             ), true);
 
-        } else if(Utils::parseCellPosition(rightPart, tempPair2) == true) {
+        } else if(Utils::parseCellPosition(rightPart, tempPair2) == true &&
+                  tempPair2.first > 0 && tempPair2.second > 0) {
             // cell + cell
 
             return std::make_pair(new FormulaCell(
-                tempPair1.first, tempPair1.second,
-                tempPair2.first, tempPair2.second,
+                tempPair1.first - 1, tempPair1.second - 1,
+                tempPair2.first - 1, tempPair2.second - 1,
                 cellText[indexOp],
                 table
             ), true);

@@ -11,7 +11,7 @@ void Table::clearTable() {
     }
 
     this->rows = this->cols = 0;
-    this->data.clear(); // TODO: check if clear() calls destructors
+    this->data.clear();
 }
 
 Table::~Table() {
@@ -19,11 +19,6 @@ Table::~Table() {
 }
 
 Table::Table(std::ifstream& in) {
-    if(!in) { // Check that
-        this->rows = this->cols = 0;
-        return;
-    }
-
     std::string line;
     getline(in, line);
 
@@ -78,6 +73,10 @@ Table::Table(std::ifstream& in) {
                         if(this->maxCellWidth < currentWidth + 2) {
                             this->maxCellWidth = currentWidth + 2;
                         }
+                    } else {
+                        std::cout << "Error in cell (" << row + 1 << ", " << col + 1;
+                        std::cout << ")\n";
+                        std::cout << "It will be converted to empty cell!\n";
                     }
                 }
 
@@ -115,6 +114,21 @@ void Table::printTable() const {
     }
 
     std::cout << "\n";
+}
+
+void Table::saveToFile(std::ofstream& out) const {
+    for(unsigned i = 0; i < this->rows; ++i) {
+        for(unsigned j = 0; j < this->cols; ++j) {
+            if(this->data[i][j] != nullptr) {
+                (this->data[i][j])->print(out);
+            }
+
+            if(j + 1 != this->cols) {
+                out << ",";
+            }
+        }
+        out << '\n';
+    }
 }
 
 const ICell* Table::getAt(const unsigned i, const unsigned j) const {

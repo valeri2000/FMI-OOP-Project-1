@@ -5,6 +5,10 @@ int StringCell::charactersLength() const {
 }
 
 void StringCell::print(std::ostream& out) const {
+    if(&out != &std::cout) {
+        out << '"' << this->value << '"';
+        return;
+    }
     out << this->value;
 }
 

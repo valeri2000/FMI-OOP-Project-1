@@ -19,6 +19,7 @@ class Table {
         Table(std::ifstream&);
 
         void printTable() const;
+        void saveToFile(std::ofstream&) const;
 
         const ICell* getAt(const unsigned i, const unsigned j) const;
         unsigned getRows() const;
