@@ -1,4 +1,7 @@
 #include "Table.h"
+#include "CellFactory.h"
+#include <iostream>
+#include <cassert>
 
 void Table::clearTable() {
     for(unsigned i = 0; i < this->rows; ++i) {
@@ -16,6 +19,11 @@ Table::~Table() {
 }
 
 Table::Table(std::ifstream& in) {
+    if(!in) { // Check that
+        this->rows = this->cols = 0;
+        return;
+    }
+
     std::string line;
     getline(in, line);
 
@@ -52,25 +60,41 @@ Table::Table(std::ifstream& in) {
 
     std::string tempCell;
 
+    this->maxCellWidth = 0;
+
     for(unsigned row = 0; row < this->rows; ++row) {
         unsigned col = 0;
 
-        for(unsigned i = 0; i < (int)lines[row].size(); ++i) {
+        for(unsigned i = 0; i < lines[row].size(); ++i) {
             if(lines[row][i] == ',') {
                 if((int)tempCell.size() > 0) {
-                    // VALIDATE CELL AND SET IT
+                    std::pair<ICell*, bool> res = 
+                        CellFactory::canProduce(tempCell, this);
+
+                    if(res.second == true) {
+                        this->data[row][col] = res.first;
+
+                        unsigned currentWidth = (res.first)->charactersLength();
+                        if(this->maxCellWidth < currentWidth + 2) {
+                            this->maxCellWidth = currentWidth + 2;
+                        }
+                    }
                 }
 
                 tempCell = "";
                 col++;
             } else {
-                tempCell += lines[row][i];
+                if(tempCell.size() || lines[row][i] != ' ') {
+                    tempCell += lines[row][i];
+                }
             }
         }
     }
 }
 
 void Table::printTable() const {
+    std::cout << "\nTable: (" << this->rows << " rows, " << this->cols << " columns)\n";
+    
     for(unsigned i = 0; i < this->rows; ++i) {
         for(unsigned j = 0; j < this->cols; ++j) {
             ICell* cell = this->data[i][j];
@@ -82,12 +106,15 @@ void Table::printTable() const {
             }
             
             // compensate with spaces
-            for(int k = 0; k < this->maxCellWidth - charsPut; ++k) {
+            for(unsigned k = 0; k < this->maxCellWidth - charsPut; ++k) {
                 std::cout << ' ';
             }
-            std::cout << "|\n";
+            std::cout << "|";
         }
+        std::cout << '\n';
     }
+
+    std::cout << "\n";
 }
 
 const ICell* Table::getAt(const unsigned i, const unsigned j) const {

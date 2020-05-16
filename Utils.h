@@ -8,6 +8,8 @@ class Utils {
         static bool stringToDouble(const std::string&, double&);
         static bool stringToInt(const std::string&, int&);
         static int numberOfDigits(int);
+
+        static bool parseCellPosition(const std::string&, std::pair<unsigned, unsigned>&); 
 };
 
 #endif

@@ -35,18 +35,71 @@ std::pair<ICell*, bool> CellFactory::matchFormula(const std::string& cellText, c
         return wrong;
     }
 
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    std::string leftPart, rightPart;
 
+    for(int i = 1; i < indexOp; ++i) {
+        if(cellText[i] == ' ') continue;
+        leftPart += cellText[i];
+    }
+
+    for(int i = indexOp + 1; i < size; ++i) {
+        if(cellText[i] == ' ') continue;
+        rightPart += cellText[i];
+    }
+
+    double temp1, temp2;
+    std::pair<unsigned, unsigned> tempPair1, tempPair2;
+
+    if(Utils::stringToDouble(leftPart, temp1) == true) {
+        if(Utils::stringToDouble(rightPart, temp2) == true) {
+            // number + number
+
+            return std::make_pair(new FormulaCell(
+                temp1, temp2,
+                cellText[indexOp],
+                table
+            ), true);
+
+        } else if(Utils::parseCellPosition(rightPart, tempPair2) == true) {
+            // number + cell
+
+            return std::make_pair(new FormulaCell(
+                temp1, tempPair2.first, tempPair2.second,
+                cellText[indexOp],
+                table
+            ), true);
+
+        } else {
+            return wrong;
+        }
+    } else if(Utils::parseCellPosition(leftPart, tempPair1)) {
+        if(Utils::stringToDouble(rightPart, temp2) == true) {
+            // cell + number
+
+            return std::make_pair(new FormulaCell(
+                tempPair1.first, tempPair1.second, temp2,
+                cellText[indexOp],
+                table
+            ), true);
+
+        } else if(Utils::parseCellPosition(rightPart, tempPair2) == true) {
+            // cell + cell
+
+            return std::make_pair(new FormulaCell(
+                tempPair1.first, tempPair1.second,
+                tempPair2.first, tempPair2.second,
+                cellText[indexOp],
+                table
+            ), true);
+
+        } else {
+            return wrong;
+        }
+    } else {
+        return wrong;
+    }
+
+    return wrong;
 }
 
 std::pair<ICell*, bool> CellFactory::matchString(const std::string& cellText) {

@@ -63,6 +63,8 @@ bool Utils::stringToDouble(const std::string& text, double& res) {
             }
         }
 
+        res *= (negative ? (-1) : (1));
+
         return true;
     } else {
         return false;
@@ -119,4 +121,38 @@ int Utils::numberOfDigits(int number) {
         number /= 10;
     }
     return count;
+}
+
+bool Utils::parseCellPosition(const std::string& text, 
+                              std::pair<unsigned, unsigned>& res) {
+    // R1232133231C2132123
+    // RXXXXXCXXXXX
+    int size = (int)text.size();
+
+    //R0C0 - minimum
+    if(size < 4 || text[0] != 'R') {
+        return false;
+    }
+
+    std::string tryNumb1, tryNumb2;
+    for(int i = 1; i < size; ++i) {
+        if(text[i] == 'C') {
+            for(int j = i + 1; j < size; ++j) {
+                tryNumb2 += text[j];
+            }
+        } else {
+            tryNumb1 += text[i];
+        }
+    }
+
+    int realNumb1, realNumb2;
+
+    if(stringToInt(tryNumb1, realNumb1) == true &&
+        stringToInt(tryNumb2, realNumb2) == true &&
+        realNumb1 >= 0 && realNumb2 >= 0) {
+        res = std::make_pair(realNumb1, realNumb2);
+        return true;
+    }
+
+    return false;
 }
