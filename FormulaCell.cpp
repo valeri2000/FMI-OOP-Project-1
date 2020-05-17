@@ -1,15 +1,16 @@
 #include "FormulaCell.h"
+#include "DoubleCell.h"
 #include "Utils.h"
 #include <cassert>
 #include <cmath>
+#include <iomanip>
 #include <exception>
 
 int FormulaCell::charactersLength() const {
     try {
         double value = this->getLiteralValue();
 
-        // TO DO FIX CONSTANTS AND REPETITIVE CODE
-        int countSymbols = 3 + 1; // digits after dot + dot
+        int countSymbols = PRECISION + 1; // digits after dot + dot
         int temp = static_cast<int>(value);
 
         countSymbols += Utils::numberOfDigits(temp);
@@ -53,7 +54,7 @@ void FormulaCell::print(std::ostream& out) const {
         return;
     }
 
-    out << this->getLiteralValue();
+    out << std::fixed << std::setprecision(PRECISION) << this->getLiteralValue();
 }
 
 double FormulaCell::getLiteralValue() const {

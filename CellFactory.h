@@ -8,9 +8,9 @@
 #include "Table.h"
 #include <utility>
 
+// Factory class for recognizing cells
 class CellFactory {
     private:
-        // should they be static ?
         static std::pair<ICell*, bool> matchFormula(const std::string&, const Table*); 
         static std::pair<ICell*, bool> matchString(const std::string&); 
         static std::pair<ICell*, bool> matchDouble(const std::string&); 

@@ -24,8 +24,8 @@ class FormulaCell : public ICell {
 
         char op; // +, -, *, /, ^ (power)
 
-        const Table* table; // which table is it in as editing cells in table should update the formula
-
+        // which table is it in (for live updates)
+        const Table* table;
     public:
         virtual int charactersLength() const override;
         virtual void print(std::ostream&) const override;
@@ -41,9 +41,6 @@ class FormulaCell : public ICell {
         FormulaCell(const unsigned, const unsigned,
                     const unsigned, const unsigned,
                     const char, const Table*); // case 3
-
-        //Check if it is required because of the virtual base destructor
-        // ~FormulaCell();
 };
 
 #endif

@@ -13,7 +13,7 @@ class StringCell : public ICell { // cell with string as value
         virtual double getLiteralValue() const override;
 
     public:
-        StringCell(const std::string);
+        StringCell(const std::string&);
 };
 
 #endif

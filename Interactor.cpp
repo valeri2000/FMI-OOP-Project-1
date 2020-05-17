@@ -47,6 +47,7 @@ void Interactor::closeCommand() {
     this->inputFile = "";
     delete this->table;
     this->table = nullptr;
+
     std::cout << "File has been closed and table in memory is cleared!\n";
 }
 
@@ -178,6 +179,7 @@ void Interactor::editCommand(const std::string& parameters) {
     }
 
     (this->table)->editAt(parsedPosition.first - 1, parsedPosition.second - 1, res.first);
+
     std::cout << "Desired cell has been edited!\n";
 }
 
@@ -208,7 +210,6 @@ bool Interactor::hasActiveTable() const{
 }
 
 void Interactor::parseCommand() {
-    // TODO: is it better to do it with char[] and read with cin.getline() ? 
     std::string input;
     getline(std::cin, input);
 

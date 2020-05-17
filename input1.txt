@@ -1,3 +1,3 @@
-=12*23,=R1C1/R2C2,123.560,=R1C1^2.000
-"Hello again",20,"Some really long long text",=R1C1/R3C3
+=2^10,   =R1C1/R2C1,=R1C1/R2C3,=R1C1^2
+"Hello again", 20,  "12.15",=R1C1/R3C3
 12.132,2,3,4

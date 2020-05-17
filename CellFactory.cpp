@@ -5,7 +5,7 @@ std::pair<ICell*, bool> CellFactory::matchFormula(const std::string& cellText, c
     std::pair<ICell*, bool> wrong = std::make_pair(nullptr, false);
     int size = (int)cellText.size();
 
-    // =1+1 (4 char minimum)
+    // =1+1 (4 chars minimum)
     if(size < 4 || cellText[0] != '=') {
         return wrong;
     }
@@ -14,7 +14,6 @@ std::pair<ICell*, bool> CellFactory::matchFormula(const std::string& cellText, c
     bool ok = true;
 
     for(int i = 1; i < size; ++i) {
-        // maybe function for op?
         char ch = cellText[i];
         if(ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^') {
             if(i == size - 1 || i == 1) {
