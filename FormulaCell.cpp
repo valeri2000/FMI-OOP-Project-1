@@ -2,17 +2,22 @@
 #include "Utils.h"
 #include <cassert>
 #include <cmath>
+#include <exception>
 
 int FormulaCell::charactersLength() const {
-    double value = this->getLiteralValue();
+    try {
+        double value = this->getLiteralValue();
 
-    // TO DO FIX CONSTANTS AND REPETITIVE CODE
-    int countSymbols = 3 + 1; // digits after dot + dot
-    int temp = static_cast<int>(value);
+        // TO DO FIX CONSTANTS AND REPETITIVE CODE
+        int countSymbols = 3 + 1; // digits after dot + dot
+        int temp = static_cast<int>(value);
 
-    countSymbols += Utils::numberOfDigits(temp);
+        countSymbols += Utils::numberOfDigits(temp);
 
-    return countSymbols;
+        return countSymbols;
+    } catch(const int& param) {
+        return -1;
+    }    
 }
 
 void FormulaCell::print(std::ostream& out) const {
@@ -38,10 +43,10 @@ void FormulaCell::print(std::ostream& out) const {
                 break;
             case 3: // cell + cell
                 out << 'R' << this->leftCell.first + 1;
-                out << 'C' << this->leftCell.first + 1;
+                out << 'C' << this->leftCell.second + 1;
                 out << this->op;
                 out << 'R' << this->rightCell.first + 1;
-                out << 'C' << this->rightCell.first + 1;
+                out << 'C' << this->rightCell.second + 1;
                 break;
         }
 
@@ -82,8 +87,11 @@ double FormulaCell::getLiteralValue() const {
         case '*':
             return value1 * value2;
         case '/':
-            // TO DO : DIVISION BY 0
-            return value2 == 0 ? 0 : value1 / value2;
+            if(value2 == 0) {
+                throw 0;
+            }
+            
+            return value1 / value2;
         case '^':
             return std::pow(value1, value2);
         default:

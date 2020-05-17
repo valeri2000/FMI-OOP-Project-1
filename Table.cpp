@@ -55,7 +55,7 @@ Table::Table(std::ifstream& in) {
 
     std::string tempCell;
 
-    this->maxCellWidth = 0;
+    this->maxCellWidth = 6; // DIVBY0
 
     for(unsigned row = 0; row < this->rows; ++row) {
         unsigned col = 0;
@@ -69,9 +69,12 @@ Table::Table(std::ifstream& in) {
                     if(res.second == true) {
                         this->data[row][col] = res.first;
 
-                        unsigned currentWidth = (res.first)->charactersLength();
-                        if(this->maxCellWidth < currentWidth + 2) {
-                            this->maxCellWidth = currentWidth + 2;
+                        int temp = (res.first)->charactersLength();
+                        if(temp != -1) {
+                            unsigned currentWidth = temp;
+                            if(this->maxCellWidth < currentWidth + 2) {
+                                this->maxCellWidth = currentWidth + 2;
+                            }
                         }
                     } else {
                         std::cout << "Error in cell (" << row + 1 << ", " << col + 1;
@@ -100,8 +103,15 @@ void Table::printTable() const {
 
             unsigned charsPut = 0;
             if(cell != nullptr) {
-                cell->print(std::cout);
-                charsPut = cell->charactersLength();
+                int temp = cell->charactersLength();
+
+                if(temp == -1) {
+                    std::cout << "DIVBY0";
+                    charsPut = 6;
+                } else {
+                    cell->print(std::cout);
+                    charsPut = temp;
+                }
             }
             
             // compensate with spaces
@@ -134,6 +144,10 @@ void Table::saveToFile(std::ofstream& out) const {
 void Table::editAt(const unsigned i, const unsigned j, ICell* newVal) {
     delete this->data[i][j];
     this->data[i][j] = newVal;
+
+    if(newVal->charactersLength() == -1) {
+        return;
+    }
 
     unsigned newWidth = newVal->charactersLength();
     if(newWidth + 2 > this->maxCellWidth) {
