@@ -1,4 +1,6 @@
 #include "Interactor.h"
+#include "Utils.h"
+#include "CellFactory.h"
 #include <iostream>
 #include <fstream>
 
@@ -89,16 +91,16 @@ void Interactor::saveasCommand(const std::string& parameters) {
 }
 
 void Interactor::helpCommand() {
-    std::cout << "open ...\topens a file from which a table is loaded\n";
+    std::cout << "open ...\n\topens a file from which a table is loaded\n";
     std::cout << "\texample: 'open input.txt'\n";
-    std::cout << "close\tcloses opened file\n";
-    std::cout << "save\tsaves current table to the input file\n";
-    std::cout << "saveas ...\tsaves current table to the specific file\n";
+    std::cout << "close\n\tcloses opened file\n";
+    std::cout << "save\n\tsaves current table to the input file\n";
+    std::cout << "saveas ...\n\tsaves current table to the specific file\n";
     std::cout << "\texample: 'saveas NewFolder/newFile.txt'\n"; // TRY THIS
-    std::cout << "edit ... ...\tsets new value to specified cell\n";
-    std::cout << "\texample: 'edit R1C1 15'\n";
-    std::cout << "help\tdisplays available commands\n";
-    std::cout << "exit\texits the program\n";
+    std::cout << "edit ... ...\n\tsets new value to specified cell\n";
+    std::cout << "\texample: 'edit R1C1 15' (indices start from 1)\n";
+    std::cout << "help\n\tdisplays available commands\n";
+    std::cout << "exit\n\texits the program\n";
 }
 
 void Interactor::exitCommand() {
@@ -123,10 +125,60 @@ void Interactor::printCommand() {
 }
 
 void Interactor::editCommand(const std::string& parameters) {
+    if(this->table == nullptr) {
+        std::cout << "No loaded table!\n";
+        return;
+    }
+
     if((int)parameters.size() == 0) {
         this->errorMessage();
         return;
     }
+
+    int size = (int)parameters.size();
+
+    std::string position;
+    int index = 0;
+    for(; index < size; ++index) {
+        if(parameters[index] == ' ') {
+            index++;
+            break;
+        }
+
+        position += parameters[index];
+    }
+
+    std::pair<unsigned, unsigned> parsedPosition;
+    if(Utils::parseCellPosition(position, parsedPosition) == false) {
+        std::cout << "Invalid cell position! Type 'help' to check syntax.\n";
+        return;
+    }
+
+    if(parsedPosition.first > (this->table)->getRows() ||
+       parsedPosition.second > (this->table)->getCols() ||
+       parsedPosition.first == 0 ||
+       parsedPosition.second == 0) {
+        std::cout << "Cell position is outside of the table!\n";
+        std::cout << "Desired position: (" << parsedPosition.first;
+        std::cout << ", " << parsedPosition.second << ")\n";
+        std::cout << "Table size: (" << (this->table)->getRows();
+        std::cout << ", " << (this->table)->getCols() << ")\n";
+        return;
+    }
+
+    std::string cellText;
+    for(; index < size; ++index) {
+        cellText += parameters[index];
+    }
+
+    std::pair<ICell*, bool> res = CellFactory::canProduce(cellText, this->table);
+    if(res.second == false) {
+        std::cout << "Could not recognize cell type!\n";
+        return;
+    }
+
+    (this->table)->editAt(parsedPosition.first - 1, parsedPosition.second - 1, res.first);
+    std::cout << "Desired cell has been edited!\n";
 }
 
 Interactor::Interactor() {

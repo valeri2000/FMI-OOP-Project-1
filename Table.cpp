@@ -131,6 +131,16 @@ void Table::saveToFile(std::ofstream& out) const {
     }
 }
 
+void Table::editAt(const unsigned i, const unsigned j, ICell* newVal) {
+    delete this->data[i][j];
+    this->data[i][j] = newVal;
+
+    unsigned newWidth = newVal->charactersLength();
+    if(newWidth + 2 > this->maxCellWidth) {
+        this->maxCellWidth = newWidth + 2;
+    }
+}
+
 const ICell* Table::getAt(const unsigned i, const unsigned j) const {
     if(i >= this->rows || j >= this->cols) {
         return nullptr;

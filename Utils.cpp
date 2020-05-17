@@ -140,6 +140,8 @@ bool Utils::parseCellPosition(const std::string& text,
             for(int j = i + 1; j < size; ++j) {
                 tryNumb2 += text[j];
             }
+            
+            break;
         } else {
             tryNumb1 += text[i];
         }

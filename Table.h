@@ -20,8 +20,9 @@ class Table {
 
         void printTable() const;
         void saveToFile(std::ofstream&) const;
+        void editAt(const unsigned, const unsigned, ICell*);
 
-        const ICell* getAt(const unsigned i, const unsigned j) const;
+        const ICell* getAt(const unsigned, const unsigned) const;
         unsigned getRows() const;
         unsigned getCols() const;
 };
