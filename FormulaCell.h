@@ -5,42 +5,52 @@
 #include "Table.h"
 #include <utility>
 
-/*
-4 cases:
-0 -> number + cell
-1 -> cell + number
-2 -> number + number
-3 -> cell + cell
-*/
-
+/// \brief Class for cells containing formula
 class FormulaCell : public ICell {
     private:
-        int myCase;
-        std::pair<unsigned, unsigned> leftCell;
-        double leftNumber;
+        int myCase; ///< there will be 4 cases for formulas:
+                    ///< case 0 -> number + cell
+                    ///< case 1 -> cell + number
+                    ///< case 2 -> number + number
+                    ///< case 3 -> cell + cell
 
-        std::pair<unsigned, unsigned> rightCell;
-        double rightNumber;
+        std::pair<unsigned, unsigned> leftCell; ///< if left value is a cell
+        double leftNumber; ///< if left value is an actual constant number
 
-        char op; // +, -, *, /, ^ (power)
+        std::pair<unsigned, unsigned> rightCell; ///< if right value is a cell
+        double rightNumber; ///< if right value is an actual constant number
 
-        // which table is it in (for live updates)
-        const Table* table;
+        char op; ///< operation between left and right side
+                 ///< (+, -, *, /, ^ - power)
+
+        const Table* table; ///< track table for live updates
+
     public:
         virtual int charactersLength() const override;
         virtual void print(std::ostream&) const override;
         virtual double getLiteralValue() const override; 
 
     public:
+        /// \brief Constructor for case 0
+        /// \param params number, cell row, cell col, operation, table pointer
         FormulaCell(const double, const unsigned, const unsigned,
-                    const char, const Table*); // case 0
+                    const char, const Table*);
+
+        /// \brief Constructor for case 1
+        /// \param params cell row, cell col, number, operation, table pointer
         FormulaCell(const unsigned, const unsigned, const double,
-                    const char, const Table*); // case 1
+                    const char, const Table*);
+
+        /// \brief Constructor for case 2
+        /// \param params number, number, operation, table pointer
         FormulaCell(const double, const double,
-                    const char, const Table*); // case 2
+                    const char, const Table*);
+
+        /// \brief Constructor for case 3
+        /// \param params left cell(row and col), right cell(row and col), operation, table pointer
         FormulaCell(const unsigned, const unsigned,
                     const unsigned, const unsigned,
-                    const char, const Table*); // case 3
+                    const char, const Table*);
 };
 
 #endif

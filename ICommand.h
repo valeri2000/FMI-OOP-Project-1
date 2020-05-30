@@ -19,6 +19,10 @@ class ICommand {
 
         /// \brief Pure virtual method to execute an action
         /// \param 'const string' which is all the parameters combined
+        /// \param 'Table* &' which is the actual pointer to the table
+        ///
+        /// Commands are executed on a specific table and their effect \n
+        /// is passed\n
         virtual void execute(const std::string&, Table* &) = 0;
 
         /// \brief Pure virtual getter for command name for recognizing commands

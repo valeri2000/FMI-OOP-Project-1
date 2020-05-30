@@ -17,6 +17,7 @@ class Invoker {
         ~Invoker();
 
         /// \brief Main method of Invoker class which parses commands
+        /// \return 'bool' which is 'false' if last command is 'exit'
         bool parseCommand(Table* &);
 };
 

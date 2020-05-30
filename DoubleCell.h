@@ -3,18 +3,20 @@
 
 #include "ICell.h"
 
-const int PRECISION = 3; // number of digits after dot; for diplaying purpose
+const int PRECISION = 3; ///< number of digits after dot, has diplaying purpose
 
-class DoubleCell : public ICell { // cell as double number as value
+/// \brief Class for cells containing double
+class DoubleCell : public ICell {
     private:
-        double value;
+        double value; ///< the double number stored in the cell
 
-    public: // ICell methods
+    public:
         virtual int charactersLength() const override;
         virtual void print(std::ostream&) const override;
         virtual double getLiteralValue() const override;
 
     public:
+        /// \brief Constructor accepting double value
         DoubleCell(const double);
 };
 

@@ -3,32 +3,30 @@
 
 #include <iostream>
 
-/// Interface for all cell types
-///
-/// It is base class for all cell types.
+/// \brief Interface class for all cell types
 class ICell {
     public:
-        /// Virtual destructor for efficient deletion
-        ///
-        /// Polymorphic objects are deleted with no leak.
+        /// \brief Virtual destructor for efficient deletion through base class
         virtual ~ICell() {};
 
-        /// Pure virtual function
-        ///
-        /// It returns the number of characters which are to be displayed.
-        /// It is used for aligning the delimiters when printing
-        /// the table.
+        /// \brief Pure virtual function
+        /// \return 'int' which is a number
+        /// 
+        /// It returns the number of characters of cell value which are \n
+        /// to be displayed. It is used for correct alignment of cells in table \n
+        /// by delimiter\n
         virtual int charactersLength() const = 0;
 
-        /// Pure virtual function
-        ///
-        /// It prints the cell in an output stream given as a parameter.
+        /// \brief Pure virtual function
+        /// \param 'std::ostream&' which is an output stream
+        /// 
+        /// It prints cell value in an output stream\n
         virtual void print(std::ostream&) const = 0;
 
-        /// Pure virtual function
-        ///
-        /// It converts the cell value to 'double' which is used for
-        /// formula calculations.
+        /// \brief Pure virtual function
+        /// \return 'double' which is a number
+        /// 
+        /// It converts the cell value to 'double' which is used for formula calculations\n
         virtual double getLiteralValue() const = 0;
 };
 

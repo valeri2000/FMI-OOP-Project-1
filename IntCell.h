@@ -3,16 +3,18 @@
 
 #include "ICell.h"
 
-class IntCell : public ICell { // Cell with integer as value
+/// \brief Class for cells containing int
+class IntCell : public ICell {
     private:
-        int value;
+        int value; ///< the int number stored in the cell
 
-    public: // ICell methods
+    public:
         virtual int charactersLength() const override;
         virtual void print(std::ostream&) const override;
         virtual double getLiteralValue() const override;
 
     public:
+        /// \brief Constructor accepting int value
         IntCell(const int);
 };
 

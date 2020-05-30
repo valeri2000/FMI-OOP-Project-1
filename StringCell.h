@@ -3,16 +3,19 @@
 
 #include "ICell.h"
 
-class StringCell : public ICell { // cell with string as value
+/// \brief Class for cells containing string
+class StringCell : public ICell {
     private:
-        std::string value;
+        std::string value; ///< the string stored in the cell
+                           ///< e.g. "TEST"
 
-    public: // ICell methods
+    public:
         virtual int charactersLength() const override;
         virtual void print(std::ostream&) const override;
         virtual double getLiteralValue() const override;
 
     public:
+        /// \brief Constructor accepting string value
         StringCell(const std::string&);
 };
 
