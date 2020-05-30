@@ -4,6 +4,7 @@
 
 void EditCommand::execute(const std::string& param, Table* & obj) {
     if(obj == nullptr) {
+        std::cout << "No loaded table in memory!\n";
         return;
     }
 
@@ -11,6 +12,7 @@ void EditCommand::execute(const std::string& param, Table* & obj) {
     Utils::parseLineToParam(param, params);
 
     if(params.size() != 2) {
+        std::cout << "Invalid command! Type 'help' to view available commands.\n";
         return;
     }
 

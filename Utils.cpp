@@ -181,7 +181,10 @@ void Utils::parseLineToParam(
                 currParam = "";
             }
         } else if(line[i] == '"') {
-            if(startedString == true) {
+            if(i > 0 && line[i - 1] == '\\') {
+                currParam.pop_back();
+                currParam += line[i];
+            } else if(startedString == true) {
                 startedString = false;
 
                 currParam += line[i];

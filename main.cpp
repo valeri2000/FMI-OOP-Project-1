@@ -6,5 +6,7 @@ int main() {
 
     while(manager->parseCommand() == true) {}
 
+    delete manager;
+
     return 0;
 }

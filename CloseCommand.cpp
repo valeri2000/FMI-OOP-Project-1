@@ -2,6 +2,7 @@
 
 void CloseCommand::execute(const std::string& param, Table* & obj) {
     if(obj == nullptr) {
+        std::cout << "No loaded table in memory!\n";
         return;
     }
 

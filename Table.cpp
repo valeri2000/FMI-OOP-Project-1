@@ -143,6 +143,7 @@ void Table::saveToFile(const std::string& file) const {
     std::ofstream out(file, std::ios::out | std::ios::trunc);
 
     if(!out) {
+        std::cout << "Invalid output file!\n";
         return;
     }
 

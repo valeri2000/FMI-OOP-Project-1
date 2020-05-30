@@ -2,10 +2,7 @@
 
 void OpenCommand::execute(const std::string& param, Table* & obj) {
     if(obj != nullptr) {
-        return;
-    }
-
-    if(param.size() > 0) {
+        std::cout << "File is already opened!\n";
         return;
     }
 
@@ -15,6 +12,8 @@ void OpenCommand::execute(const std::string& param, Table* & obj) {
     if(!flag) {
         delete obj;
         obj = nullptr;
+
+        std::cout << "Could not load table from file!\n";
     }
 }
 

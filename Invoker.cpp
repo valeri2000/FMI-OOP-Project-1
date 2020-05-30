@@ -61,7 +61,7 @@ bool Invoker::parseCommand(Table* &obj) {
     }
 
     if(!found) {
-        //smth
+        std::cout << "Invalid command!\n";
     }
 
     return true;
