@@ -18,7 +18,18 @@ Table::~Table() {
     this->clearTable();
 }
 
-Table::Table(std::ifstream& in) {
+Table::Table(const std::string& file, bool& good) {
+    good = true;
+
+    std::ifstream in(file, std::ios::in);
+    this->inputFile = file;
+
+    if(!in) {
+        good = false;
+        in.close();
+        return;
+    }
+
     std::string line;
     getline(in, line);
 
@@ -32,6 +43,8 @@ Table::Table(std::ifstream& in) {
 
     if((int)lines.size() == 0) {
         this->rows = this->cols = 0;
+        good = false;
+        in.close();
         return;
     }
 
@@ -126,7 +139,13 @@ void Table::printTable() const {
     std::cout << "\n";
 }
 
-void Table::saveToFile(std::ofstream& out) const {
+void Table::saveToFile(const std::string& file) const {
+    std::ofstream out(file, std::ios::out | std::ios::trunc);
+
+    if(!out) {
+        return;
+    }
+
     for(unsigned i = 0; i < this->rows; ++i) {
         for(unsigned j = 0; j < this->cols; ++j) {
             if(this->data[i][j] != nullptr) {
@@ -169,4 +188,8 @@ unsigned Table::getRows() const {
 
 unsigned Table::getCols() const {
     return this->cols;
+}
+
+const std::string& Table::getInputFile() const {
+    return this->inputFile;
 }

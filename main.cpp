@@ -3,12 +3,8 @@
 
 int main() {
     Interactor* manager = Interactor::getInstance();
-    std::cout << "Program initiated!\n";
 
-    while(manager->isActive()) {
-        std::cout << "\nEnter your command: ";
-        manager->parseCommand();
-    }
+    while(manager->parseCommand() == true) {}
 
     return 0;
 }
