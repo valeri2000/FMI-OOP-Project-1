@@ -51,6 +51,12 @@ class FormulaCell : public ICell {
         FormulaCell(const unsigned, const unsigned,
                     const unsigned, const unsigned,
                     const char, const Table*);
+
+        /// \brief Disable copy constructor
+        FormulaCell(const FormulaCell&) = delete;
+
+        /// \brief Disable operator = 
+        FormulaCell& operator = (const FormulaCell&) = delete;
 };
 
 #endif

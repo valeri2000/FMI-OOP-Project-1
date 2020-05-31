@@ -13,6 +13,12 @@ class Invoker {
         /// \param 'const vector<ICommand*>' which is vector of commands
         Invoker(const std::vector<ICommand*>&);
 
+        /// \brief Disable copy constructor
+        Invoker(const Invoker&) = delete;
+
+        /// \brief Disable operator =
+        Invoker& operator = (const Invoker&) = delete;
+
         /// \brief Destructor for invoker class
         ~Invoker();
 

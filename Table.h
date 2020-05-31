@@ -28,6 +28,12 @@ class Table {
         /// \param second 'bool&' reference to boolean flag which is 'false' if an error is found
         Table(const std::string&, bool&);
 
+        /// \brief Disable copy constructor
+        Table(const Table&) = delete;
+
+        /// \brief Disable operator =
+        Table& operator = (const Table&) = delete;
+
         /// \brief Function to print table
         void printTable() const;
 

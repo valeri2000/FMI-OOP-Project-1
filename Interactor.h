@@ -20,6 +20,12 @@ class Interactor {
         /// \brief Public destructor for member deletion
         ~Interactor();
 
+        /// \brief Disable copy constructor
+        Interactor(const Interactor&) = delete;
+
+        /// \brief Disable operator = 
+        Interactor& operator = (const Interactor&) = delete;
+
         /// \brief Static getter function for the instance
         /// \return 'Interactor*' which is a pointer to the only instance
         static Interactor* getInstance();
